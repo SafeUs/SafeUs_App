@@ -12112,7 +12112,7 @@ const Map = () => {
   );
 }
 
-const styles = StyleSheet.create({
+const Styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -12121,8 +12121,8 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-  },
+    height: Dimensions.get('window').height-100,
+  }
 });
 
 export default Map;
