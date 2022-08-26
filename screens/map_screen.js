@@ -1,14 +1,24 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import MapView from 'react-native-maps';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import 'react-native-dotenv'
 import { XMLParser } from 'fast-xml-parser'
+import * as Location from 'expo-location';
 
 let data;
 const Map = () => {
+  const [initialRegion, setInitialRegion] = useState({
+    latitude: 35.91395373474155,
+    longitude: 127.73829440215488,
+    latitudeDelta: 5,
+    longitudeDelta: 5,
+  })
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(true)
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
   const getMarker = useCallback(async () => {
     try {
         const text = `<?xml version="1.0" encoding="UTF-8"?>
@@ -12052,11 +12062,35 @@ const Map = () => {
 
   useEffect(() => {
     getMarker();
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
   }, [isFocused]);
 
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+    console.log('[LOG] current location : ' + JSON.parse(text).coords.latitude + ", " + JSON.parse(text).coords.longitude);
+  }
+
   return (
-    <View style={Styles.container}>
-      <MapView style={Styles.map}>
+    <View style={styles.container}>
+      <MapView
+        initialRegion={initialRegion}
+        style={[styles.map]}
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
+      >
         {!loading ? (
         <>
           {data.map((marker, i) => (

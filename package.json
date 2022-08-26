@@ -39,6 +39,7 @@
     "react-navigation": "^4.4.4",
     "react-navigation-tabs": "^2.11.2",
     "react-xml-parser": "^1.1.8"
+    "expo-location": "~14.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
