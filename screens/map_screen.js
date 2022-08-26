@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import MapView from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import 'react-native-dotenv'
 import { XMLParser } from 'fast-xml-parser'
@@ -12055,8 +12055,8 @@ const Map = () => {
   }, [isFocused]);
 
   return (
-    <View style={styles.container}>
-      <MapView style={styles.map}>
+    <View style={Styles.container}>
+      <MapView style={Styles.map}>
         {!loading ? (
         <>
           {data.map((marker, i) => (
@@ -12078,7 +12078,7 @@ const Map = () => {
   );
 }
 
-const styles = StyleSheet.create({
+const Styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -12087,8 +12087,8 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-  },
+    height: Dimensions.get('window').height-100,
+  }
 });
 
 export default Map;
