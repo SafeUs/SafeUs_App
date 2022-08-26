@@ -12083,10 +12083,10 @@ const Map = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={Styles.container}>
       <MapView
         initialRegion={initialRegion}
-        style={[styles.map]}
+        style={[Styles.map]}
         provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
         showsMyLocationButton={true}
